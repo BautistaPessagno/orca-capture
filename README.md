@@ -1,36 +1,27 @@
 # Capture Studio for Orca
 
-Turn a code excerpt or an agent exchange into a styled PNG. Capture the Orca window when the layout matters, then blur or cover the panes you want to hide.
+Take a framed screenshot of code or a conversation where it appears, or copy a screenshot of the Orca window with chat and editor panes blurred.
 
-Capture Studio opens as an editor tab. It requires Orca Desktop 1.4.248 or later.
+## Try it
 
-## Install
-
-Open **Settings → Plugins** and search for **Capture Studio**, or install this release from GitHub.
+Requires macOS 14.2 or later, Orca Desktop 1.4.248 or later, and Apple's Swift toolchain (available through Xcode Command Line Tools). Install with:
 
 ```sh
-orca plugin install BautistaPessagno/orca-capture@v0.1.0
+orca plugin install BautistaPessagno/orca-capture@v0.2.0
 ```
 
-Review the permission prompt Orca displays. The plugin is a trusted worker so that its command can start the macOS window picker. It requests no Orca API capabilities. macOS may also ask you to allow screen recording for the window picker. You can skip that permission and import a screenshot manually.
+Approve the trusted worker. It launches the bundled Swift source with the system toolchain. macOS Screen Recording permission lets the helper capture the Orca window. Accessibility permission enables hover targeting and automatic pane detection. After granting permission, reopen capture.
 
-## Create a capture
+- **Screenshot Excerpt** (⌘⌥⇧C). With code or a chat visible, invoke the shortcut, hover the text, and click to select it. Drag a rectangle to include multiple lines or messages. Press Return or click **Copy screenshot** for a framed PNG with the original on-screen colors and typography. Press S to save instead.
+- **Screenshot Orca Window** (⌘⌥⇧B). Review the window with recognized Monaco editors and native chat panes blurred. Other views stay visible. The toolbar shows how many regions were found. If a pane is missing, drag over it before copying or saving. Z removes the last region.
+- Press Escape to dismiss either capture. Both commands are also available through Orca's ⌘J palette.
 
-Open **New Capture Studio** from Orca's command palette or the tab bar's **+** menu.
-
-- **Code.** Copy the lines you want to share and paste them into **Code**. Set the filename or language for syntax highlighting, and choose whether to include line numbers and where they start. JavaScript, TypeScript, JSON, Python, shell, and plain text are supported.
-- **Conversation.** Paste each prompt or reply into its own message and choose **You** or **Agent**. Add or remove messages and set an optional conversation title.
-- **Window.** On macOS, run **Capture Studio: Capture Window to Clipboard** from the command palette while the Orca layout you want is visible. Click the Orca window, switch to **Window** in Capture Studio, then paste. You can also open or drop a PNG, JPEG, or WebP from any platform. Choose **Solid cover** or **Blur** and drag over any area you want to hide. Use **Solid cover** for secrets.
-
-Choose **Export PNG** to save the image. Window exports contain only the rendered pixels. The preview keeps the imported image in memory until the tab closes so redactions can be undone. The capture command leaves the original screenshot in the system clipboard. It does not save a source file or upload content.
+The capture overlay opens over a frozen image of the frontmost visible Orca window. Hover and automatic masking depend on the accessibility information Orca supplies. Embedded terminal agents and panes without recognizable accessibility classes can require a manual rectangle. Review the visible result before sharing. The helper holds the original in memory and writes only the image you copy or save.
 
 ## Development
 
 ```sh
-node --test
+swift native/Capture.swift --self-test
 orca plugin validate . --json
 orca plugin check . --json
-orca plugin dev load . --json
 ```
-
-The repository's release tags match the version in `orca-plugin.json`. The `orca-plugin` topic opts the repository into the [Orca community catalog](https://orca.dev/plugins/add).
