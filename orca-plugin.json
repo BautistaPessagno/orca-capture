@@ -1,0 +1,54 @@
+{
+  "manifestVersion": 2,
+  "id": "capture-studio",
+  "name": "Capture Studio",
+  "version": "0.1.0",
+  "description": "Export code and agent conversations as styled PNGs. Blur or redact sensitive areas in window screenshots.",
+  "repository": "https://github.com/BautistaPessagno/orca-capture",
+  "author": {
+    "name": "Bautista Pessagno"
+  },
+  "license": "MIT",
+  "engines": {
+    "orca": ">=1.4.248"
+  },
+  "execution": "trusted-worker",
+  "main": "worker.mjs",
+  "capabilities": [],
+  "contributes": {
+    "commands": [
+      {
+        "id": "capture-window",
+        "title": "Capture Studio: Capture Window to Clipboard (macOS)"
+      }
+    ],
+    "customEditors": [
+      {
+        "id": "capture-studio",
+        "title": "Capture Studio",
+        "extensions": [
+          ".capture-studio"
+        ],
+        "entry": "editor/index.html",
+        "frame": "isolated"
+      }
+    ],
+    "newFiles": [
+      {
+        "id": "new-capture",
+        "title": "New Capture Studio",
+        "extension": ".capture-studio"
+      }
+    ]
+  },
+  "cover": {
+    "path": "images/cover.webp",
+    "alt": "Capture Studio showing a styled TypeScript snippet with syntax highlighting and line numbers"
+  },
+  "screenshots": [
+    {
+      "path": "images/conversation.webp",
+      "alt": "Capture Studio preview showing a user prompt and agent reply in separate message cards"
+    }
+  ]
+}
